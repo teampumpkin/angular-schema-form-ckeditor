@@ -1,7 +1,7 @@
 {
   "name": "angular-schema-form-ckeditor",
   "main": [
-    "bootstrap-ckeditor.min.js"
+    "bootstrap-ckeditor.js"
   ],
   "version": "0.0.1",
   "authors": [
