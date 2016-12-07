@@ -1,4 +1,4 @@
-angular.module("schemaForm").run(["$templateCache", function($templateCache) {$templateCache.put("directives/decorators/bootstrap/ckeditor/ckeditor.html","<div class=\"form-group\" ng-class=\"{\'has-error\': hasError()}\">\r\n  <label class=\"control-label\" ng-show=\"showTitle()\">{{form.title}}</label>\r\n\r\n  <textarea ng-show=\"form.key\"\r\n         style=\"background-color: white\"\r\n         type=\"text\"\r\n         class=\"form-control\"\r\n         schema-validate=\"form\"\r\n         ng-model=\"$$value$$\"\r\n         ckeditor=\"form.ckeditor\"></textarea>\r\n\r\n  <span class=\"help-block\">{{ (hasError() && errorMessage(schemaError())) || form.description}}</span>\r\n</div>");}]);
+angular.module("schemaForm").run(["$templateCache", function($templateCache) {$templateCache.put("directives/decorators/bootstrap/ckeditor/ckeditor.html","<div class=\"form-group {{form.htmlClass}}\"\r\n     ng-class=\"{\'has-error\': form.disableErrorState !== true && hasError(), \'has-success\': form.disableSuccessState !== true && hasSuccess(), \'has-feedback\': form.feedback !== false}\">\r\n  <label class=\"control-label {{form.labelHtmlClass}}\"\r\n         ng-show=\"showTitle()\">\r\n    {{form.title}}\r\n  </label>\r\n\r\n  <div class=\"{{ form.fieldWrapperHtmlClass }}\">\r\n    <textarea ng-show=\"form.key\"\r\n              style=\"background-color: white\"\r\n              type=\"text\"\r\n              class=\"form-control\"\r\n              schema-validate=\"form\"\r\n              ng-model=\"$$value$$\"\r\n              ckeditor=\"form.ckeditor\"></textarea>\r\n    <span ng-if=\"form.feedback !== false\"\r\n          class=\"form-control-feedback\"\r\n          ng-class=\"evalInScope(form.feedback) || {\'glyphicon\': true, \'glyphicon-ok\': hasSuccess(), \'glyphicon-remove\': hasError() }\"\r\n          aria-hidden=\"true\"> </span>\r\n    <span ng-if=\"hasError() || hasSuccess()\"\r\n      id=\"{{form.key.slice(-1)[0] + \'Status\'}}\"\r\n      class=\"sr-only\">{{ hasSuccess() ? \'(success)\' : \'(error)\' }}</span>\r\n    <div class=\"help-block\" sf-message=\"form.description\"> </div>\r\n  </div>\r\n</div>\r\n");}]);
 angular.module('schemaForm')
 .config(['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
   function(schemaFormProvider,  schemaFormDecoratorsProvider, sfPathProvider) {
@@ -81,20 +81,6 @@ angular.module('schemaForm')
 				var onLoad = function() {
 					var options = {
 						toolbar: 'full',
-						// toolbar_full: [
-						// { name: 'basicstyles',
-						// items: [ 'Bold', 'Italic', 'Strike', 'Underline' ] },
-						// { name: 'paragraph', items: [ 'BulletedList', 'NumberedList', 'Blockquote' ] },
-						// { name: 'editing', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-						// { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-						// { name: 'tools', items: [ 'SpellChecker', 'Maximize' ] },
-						// '/',
-						// { name: 'styles', items: [ 'Format', 'FontSize', 'TextColor', 'PasteText', 'PasteFromWord', 'RemoveFormat' ] },
-						// { name: 'insert', items: [ 'Image', 'Table', 'SpecialChar' ] },
-						// { name: 'forms', items: [ 'Outdent', 'Indent' ] },
-						// { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
-						// { name: 'document', items: [ 'PageBreak', 'Source' ] }
-						// ],
 						disableNativeSpellChecker: false,
 						uiColor: '#FAFAFA',
 						height: '400px',
@@ -175,4 +161,5 @@ angular.module('schemaForm')
 	}]);
 
 	return app;
-}));
+})
+);
